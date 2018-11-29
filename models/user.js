@@ -3,14 +3,15 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt-nodejs')
 const Schema = mongoose.Schema
+const enumerated = require('../middlewares/enumStructures')
 
 const UserSchema = new Schema({
   //_id: { type: String  },
-  userName: { type: String, unique: true},
+  userName: { type: String, unique: true },
   firstName: { type: String  },
   lastName: { type: String  },
-  role: { type: String, enum: ['admin', 'mentor', 'teamPartner', 'corer'] },
-  team: { type: String, enum: ['general', 'developer', 'game']},
+  role: { type: String, enum: enumerated.role },
+  team: { type: String, enum: enumerated.teams },
   password: { type: String, select: false },
   idTelegram: { type: String },
   githubURL: { type: String },
@@ -20,7 +21,7 @@ const UserSchema = new Schema({
   doneDesign: { type: Number  },
   doneDeveloper: { type: Number },
   doneGame: { type: Number },
-  meetingsAsisted: { type: Number},
+  meetingsAsisted: { type: Number },
   importantURL: { type: [String] },
   titleURL: { type: [String] },
   creation: { type:  Date, default: Date.now()},
