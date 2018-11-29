@@ -55,3 +55,10 @@ function deleteUser(req, res){
 		})
 	})
 }
+
+module.exports{
+	createUser,
+	getUser,
+	updateUser,
+	deleteUser,
+}
