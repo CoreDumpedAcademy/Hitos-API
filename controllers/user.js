@@ -68,7 +68,7 @@ function deleteUser(req, res){
 module.exports = {
 	createUser,
 	getUser,
-	getUsers,
 	updateUser,
-	deleteUser
+	deleteUser,
+	getUsers,
 }
