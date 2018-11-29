@@ -6,7 +6,7 @@ const enumerated = require('../middlewares/enumStructures')
 
 const MilestoneSchema = new Schema({
   _id: { type: String },
-  author: { type: Schema.Types.ObjectId, ref: 'User' },
+  author: { type: Schema.Types.ObjectId, ref: enumerated.modelsName.user },
   week: { type: Number },
   title: { type: String },
   description: { type: String },
@@ -16,4 +16,4 @@ const MilestoneSchema = new Schema({
 })
 
 	
-module.exports = mongoose.model('Milestone', MilestoneSchema)
+module.exports = mongoose.model(enumerated.modelsName.milestone, MilestoneSchema)

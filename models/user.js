@@ -7,25 +7,36 @@ const enumerated = require('../middlewares/enumStructures')
 
 const UserSchema = new Schema({
   //_id: { type: String  },
-  userName: { type: String, unique: true },
+  userName: { type: String, unique: true, required: true },
   firstName: { type: String  },
   lastName: { type: String  },
   role: { type: String, enum: enumerated.role },
   team: { type: String, enum: enumerated.teams },
-  password: { type: String, select: false },
+  password: { type: String, select: false, required: true },
   idTelegram: { type: String },
   githubURL: { type: String },
-  pendingDesign: { type: Number  },
-  pendingDeveloper: { type: Number },
-  pendingGame: { type: Number },
-  doneDesign: { type: Number  },
-  doneDeveloper: { type: Number },
-  doneGame: { type: Number },
-  meetingsAsisted: { type: Number },
-  importantURL: { type: [String] },
-  titleURL: { type: [String] },
-  creation: { type:  Date, default: Date.now()},
-  lastLogin: { type:  Date   },
+  //pendingDesign: { type: Number  },
+  //pendingDeveloper: { type: Number },
+  //pendingGame: { type: Number },
+  //doneDesign: { type: Number  },
+  //doneDeveloper: { type: Number },
+  //doneGame: { type: Number },
+  //meetingsAsisted: { type: Number },
+  milestonesCollection: [
+    {
+      milestone: {
+        type: Schema.Types.ObjectId,
+        ref: enumerated.modelsName.milestone
+      },
+      status: { type: String, enum: enumerated.status ,default: enumerated.status[0] }
+    }
+  ],
+  personalLinks: [{
+    text: { type: String },
+    url: { type: String }
+  }],
+  creation: { type: Date, default: Date.now()},
+  lastLogin: { type: Date },
   active: { type: Boolean }
 })
 
@@ -49,4 +60,4 @@ UserSchema.methods.comparePassword = function (candidatePassword, cb) {
 }
 
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model(enumerated.modelsName.user, UserSchema)

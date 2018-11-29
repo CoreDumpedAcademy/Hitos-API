@@ -27,9 +27,23 @@ const role = [
     'corer'
 ];
 
+const status = [
+    'new', 
+    'pending', 
+    'ongoing', 
+    'finished'
+];
+
+const modelsName = {
+    milestone: 'Milestone',
+    user: 'User'
+}
+
 module.exports = {
     milestoneTypes,
     milestoneDifficulty,
     teams,
-    role
+    role,
+    modelsName,
+    status
 }
