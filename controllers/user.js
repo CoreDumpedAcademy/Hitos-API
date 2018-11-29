@@ -7,13 +7,22 @@ const service = require('../services')
 function createUser(req, res){
 	let user = new User()
 	
-	user.name = req.body.name
-	user.pwd = req.body.pwd
+	user.userName = req.body.userName
+	user.password = req.body.password
 
 	user.save((err, userStored) => {
 		if(err)
 			return res.status(500).send({message: `Error al crear usuario: ${err}`})
 		res.status(200).send({message: userStored})
+	})
+}
+
+function getUsers (req, res) {
+	User.find({}, (err, users) => {
+		if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
+		if (!users) return res.status(404).send({message: 'No existen usuarios'})
+	
+		res.status(200).send({users})
 	})
 }
 
@@ -31,8 +40,8 @@ function getUser(req, res){
 
 function updateUser(req, res){
 	let updated = req.body
-
 	let userId = req.params.userId
+
 	User.findByIdAndUpdate(userId, updated, (err, oldUser) => {
 		if(err)
 			return res.status(500).send({message: `Error al actualizar usuario: ${err}`})
@@ -56,9 +65,10 @@ function deleteUser(req, res){
 	})
 }
 
-module.exports{
+module.exports = {
 	createUser,
 	getUser,
 	updateUser,
 	deleteUser,
+	getUsers,
 }
