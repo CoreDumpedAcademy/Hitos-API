@@ -12,7 +12,7 @@ const UserSchema = new Schema({
   lastName: { type: String  },
   role: { type: String, enum: enumerated.role },
   team: { type: String, enum: enumerated.teams },
-  password: { type: String, select: false, required: true },
+  password: { type: String },// required: true },
   idTelegram: { type: String },
   githubURL: { type: String },
   //pendingDesign: { type: Number  },
@@ -54,6 +54,7 @@ UserSchema.pre('save', function (next) {
 })
 
 UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+  console.log(this.password)
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     cb(err, isMatch)
   });
