@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const enumerated = require('../middlewares/enumStructures')
 
 const MilestoneSchema = new Schema({
-  _id: { type: String },
+  //_id: { type: String },
   author: { type: Schema.Types.ObjectId, ref: enumerated.modelsName.user },
   week: { type: Number },
   title: { type: String },

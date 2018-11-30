@@ -6,8 +6,13 @@ const mongoose = require('mongoose')
 function createMilestone(req, res){
 	let milestone = new Milestone()
 	
-	milestone.name = req.body.name
-	milestone.pwd = req.body.pwd
+	milestone.author = req.body.author
+	milestone.week = req.body.week
+	milestone.title = req.body.title
+	milestone.description = req.body.description
+	milestone.theme = req.body.theme
+	milestone.level = req.body.level
+
 
 	milestone.save((err, MilestoneStored) => {
 		if(err)
@@ -24,7 +29,27 @@ function getMilestone(req, res){
 			return res.status(500).send({message: `Error al realizar peticion: ${err}`})
 		if(!milestone)
 			return res.status(404).send({message:`El milestone no existe`})
-		res.status(200).send({Milestone})
+		res.status(200).send({milestone})
+	})
+}
+
+function getMilestoneByWeek (req, res) {
+	let weekNumber = req.params.weekNumber
+
+	Milestone.find({week:weekNumber}, (err, milestones) => {
+		if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
+		if (!milestones) return res.status(404).send({message: 'No existen el milestones para esa semana'})
+	
+		res.status(200).send(milestones)
+	})
+}
+
+function getMilestones (req, res) {
+	Milestone.find({}, (err, milestones) => {
+		if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
+		if (!milestones) return res.status(404).send({message: 'No existen hitos'})
+	
+		res.status(200).send({milestones})
 	})
 }
 
@@ -57,9 +82,11 @@ function deleteMilestone(req, res){
 	})
 }
 
-module.exports{
+module.exports = {
 	createMilestone,
 	getMilestone,
 	updateMilestone,
 	deleteMilestone,
+	getMilestones,
+	getMilestoneByWeek
 }
