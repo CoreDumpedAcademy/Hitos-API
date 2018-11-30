@@ -89,4 +89,8 @@ module.exports = {
 	deleteMilestone,
 	getMilestones,
 	getMilestoneByWeek
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7d4d8fe5d00e573171b2b4f63bdc708b6b4be4e6

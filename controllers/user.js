@@ -26,6 +26,17 @@ function getUsers (req, res) {
 	})
 }
 
+function getUserByName (req, res) {
+	let name = req.params.name
+
+	User.find({userName:name}, (err, user) => {
+		if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
+		if (!user) return res.status(404).send({message: 'No existen el usuario'})
+	
+		res.status(200).send(user)
+	})
+}
+
 function getUser(req, res){
 	let userId = req.params.userId
 
@@ -71,4 +82,5 @@ module.exports = {
 	updateUser,
 	deleteUser,
 	getUsers,
+	getUserByName
 }
