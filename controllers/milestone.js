@@ -21,6 +21,15 @@ function createMilestone(req, res){
 	})
 }
 
+function getMilestones(req, res) {
+	Milestone.find({}, (err, milestones) => {
+		if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
+		if (!milestones) return res.status(404).send({message: 'No existen milestones'})
+	
+		res.status(200).send({milestones})
+	})
+}
+
 function getMilestone(req, res){
 	let milestoneId = req.params.milestoneId
 
