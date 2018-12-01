@@ -32,6 +32,9 @@ function createUser(req, res){
 	
 	user.userName = req.body.userName
 	user.password = req.body.password
+	user.idTelegram = req.body.idTelegram
+	user.firstName = req.body.firstName
+	user.lastName = req.body.lastName
 
 	user.save((err, userStored) => {
 		if(err)

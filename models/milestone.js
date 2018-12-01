@@ -7,10 +7,10 @@ const enumerated = require('../middlewares/enumStructures')
 const MilestoneSchema = new Schema({
   //_id: { type: String },
   author: { type: Schema.Types.ObjectId, ref: enumerated.modelsName.user },
-  week: { type: Number },
-  title: { type: String },
+  week: { type: Number, required: true, min: 0, max: 52},
+  title: { type: String, required: true },
   description: { type: String },
-  theme: { type: String, enum: enumerated.milestoneTypes },
+  theme: { type: String, enum: enumerated.milestoneTypes, required: true },
   level: { type: String, enum: enumerated.milestoneDifficulty },
   creation: { type: Date, default: Date.now() }
 })

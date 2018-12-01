@@ -7,13 +7,13 @@ const enumerated = require('../middlewares/enumStructures')
 
 const UserSchema = new Schema({
   //_id: { type: String  },
-  userName: { type: String, unique: true, required: true },
-  firstName: { type: String  },
-  lastName: { type: String  },
+  userName: { type: String, unique: true, required: true, minlength: 5, maxlength: 50},
+  firstName: { type: String, required: true, maxlength: 50 },
+  lastName: { type: String, required: true, maxlength: 50 },
   role: { type: String, enum: enumerated.role },
   team: { type: String, enum: enumerated.teams },
-  password: { type: String, select: false, required: true },
-  idTelegram: { type: String },
+  password: { type: String, select: false, required: true, minlength: 5, maxlength: 50},
+  idTelegram: { type: String, required: true },
   githubURL: { type: String },
   //pendingDesign: { type: Number  },
   //pendingDeveloper: { type: Number },
