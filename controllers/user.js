@@ -109,13 +109,6 @@ function assignMilestone(req, res) {
 	})
 }
 
-function updateMilestone(req, res) {
-	let userId = req.params.userId
-	let milestoneId = req.params.milestoneId
-
-
-}
-
 function deleteUser(req, res){
 	let userId = req.params.userId
 
