@@ -109,6 +109,35 @@ function assignMilestone(req, res) {
 	})
 }
 
+function updateMilestone(req, res) {
+	let userId = req.params.userId
+	let milestoneId = req.params.milestoneId
+	let update = req.body.status
+
+	User.findById(userId, (err, user) => {
+		if(err)
+			return res.status(500).send({message: `Error al realizar peticion: ${err}`})
+		if(!user)
+			return res.status(404).send({message:`El usuario no existe`})
+		var milestones = user.milestonesCollection
+		var sentinel = true
+		var i = 0
+		while(i<milestones.length && sentinel) {
+			if(milestones[i]._id == milestoneId){
+				milestones[i].status = update
+				sentinel = false
+			}
+			i++
+		}
+
+		User.findByIdAndUpdate(userId, {milestonesCollection: milestones}, (err, oldUser) => {
+			if(err)
+				return res.status(500).send({message: `Error al realizar peticion: ${err}`})
+			return res.status(200).send({oldUser})
+		})
+	})
+}
+
 function deleteUser(req, res){
 	let userId = req.params.userId
 
@@ -134,4 +163,5 @@ module.exports = {
 	getUserByName,
 	logUser,
 	assignMilestone,
+	updateMilestone
 }
