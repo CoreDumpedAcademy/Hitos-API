@@ -10,7 +10,7 @@ const MilestoneSchema = new Schema({
   week: { type: Number, required: true, min: 0, max: 52},
   title: { type: String, required: true },
   description: { type: String },
-  theme: { type: String, enum: enumerated.milestoneTypes, required: true },
+  category: { type: String, enum: enumerated.milestoneTypes, required: true },
   level: { type: String, enum: enumerated.milestoneDifficulty },
   creation: { type: Date, default: Date.now() }
 })

@@ -10,6 +10,7 @@ router.post('/', milestoneCtrl.createMilestone);
 router.get('/', milestoneCtrl.getMilestones);
 router.get('/:milestoneId', milestoneCtrl.getMilestone);
 router.get('/byWeek/:weekNumber', milestoneCtrl.getMilestoneByWeek);
+router.get('/byCategory/:category', milestoneCtrl.getMilestoneByCategory);
 router.put('/:milestoneId', milestoneCtrl.updateMilestone);
 router.delete('/:milestoneId', milestoneCtrl.deleteMilestone);
 

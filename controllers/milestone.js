@@ -10,7 +10,7 @@ function createMilestone(req, res){
 	milestone.week = req.body.week
 	milestone.title = req.body.title
 	milestone.description = req.body.description
-	milestone.theme = req.body.theme
+	milestone.category = req.body.category
 	milestone.level = req.body.level
 
 
@@ -47,7 +47,18 @@ function getMilestoneByWeek (req, res) {
 
 	Milestone.find({week:weekNumber}, (err, milestones) => {
 		if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
-		if (!milestones) return res.status(404).send({message: 'No existen el milestones para esa semana'})
+		if (!milestones) return res.status(404).send({message: 'No existen milestones para esa semana'})
+	
+		res.status(200).send(milestones)
+	})
+}
+
+function getMilestoneByCategory (req, res) {
+	let cat = req.params.category
+
+	Milestone.find({category:cat}, (err, milestones) => {
+		if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
+		if (!milestones) return res.status(404).send({message: 'No existen milestones con esa categoría'})
 	
 		res.status(200).send(milestones)
 	})
@@ -97,5 +108,6 @@ module.exports = {
 	updateMilestone,
 	deleteMilestone,
 	getMilestones,
-	getMilestoneByWeek
+	getMilestoneByWeek,
+	getMilestoneByCategory
 }
