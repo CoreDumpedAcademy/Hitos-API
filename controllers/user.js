@@ -9,21 +9,22 @@ const bcrypt = require('bcrypt-nodejs')
 function logUser (req, res){
 	const logUser = new User(req.body);
 
-	User.findOne({userName:logUser.userName}, (err, user) => {
-		if(err) return res.status(500).send({message: `Error al realizar la petición: ${err}`});
-		if(!user) return res.status(404).send({message: 'El usuario no existe'});
+	User.findOne({userName:logUser.userName})
+		.select('+password +admin')
+        .exec((err, user) => {
+			if(err) return res.status(500).send({message: `Error al realizar la petición: ${err}`});
+			if(!user) return res.status(404).send({message: 'El usuario no existe'});
 
-		return user.comparePassword(logUser.password, (err, isMatch) => {
-			console.log("Hola")
-		    if (err) return res.status(500).send({ msg: `Error al ingresar: ${err}` })
-		    if (!isMatch) return res.status(404).send({ msg: 'Usuario o contraseña incorrectos' })
+			return user.comparePassword(logUser.password, (err, isMatch) => {
+			    if (err) return res.status(500).send({ msg: `Error al ingresar: ${err}` })
+			    if (!isMatch) return res.status(404).send({ msg: 'Usuario o contraseña incorrectos' })
 
-		    return res.status(200).send({ 
-		    	msg: 'Te has logueado correctamente'/*, 
-		    	token: service.createToken(user) */
-		    })
-		});
-	})
+			    return res.status(200).send({ 
+			    	msg: 'Te has logueado correctamente'/*, 
+			    	token: service.createToken(user) */
+			    })
+			});
+		})
 }
 
 function createUser(req, res){
