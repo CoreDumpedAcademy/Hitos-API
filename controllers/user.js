@@ -1,6 +1,7 @@
 'use strict'
 
 const User = require('../models/user')
+const Milestone = require('../models/milestone')
 const mongoose = require('mongoose')
 const service = require('../services')
 const bcrypt = require('bcrypt-nodejs')
@@ -86,6 +87,35 @@ function updateUser(req, res){
 	})
 }
 
+function assignMilestone(req, res) {
+	let userId = req.params.userId
+	let milestoneId = req.params.milestoneId
+
+	Milestone.findById(milestoneId, (err, milestone) => {
+		if(err)
+			return res.status(500).send({message: `Error al realizar peticion: ${err}`})
+		if(!milestone)
+			return res.status(404).send({message: `El milestone no existe`})
+		let update = {
+			$push:{milestonesCollection: milestone}
+		}
+		User.findByIdAndUpdate(userId, update, (err, oldUser) => {
+			if(err)
+				return res.status(500).send({message: `Error al realizar peticion: ${err}`})
+			if(!oldUser)
+				return res.status(404).send({message: `El usuario no existe`})
+			return res.status(200).send({oldUser})
+		})
+	})
+}
+
+function updateMilestone(req, res) {
+	let userId = req.params.userId
+	let milestoneId = req.params.milestoneId
+
+
+}
+
 function deleteUser(req, res){
 	let userId = req.params.userId
 
@@ -109,5 +139,6 @@ module.exports = {
 	deleteUser,
 	getUsers,
 	getUserByName,
-	logUser
+	logUser,
+	assignMilestone,
 }
