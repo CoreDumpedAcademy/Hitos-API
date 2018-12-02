@@ -1,5 +1,19 @@
-'use strict'
+'use strict';
 
-/*const jwt = require('jwt-simple')
-const moment = require('moment')*/
-const config = require('../config')
+const crypto = require('crypto');
+const config = require('../config');
+
+
+function normEmail(email){
+  return email.toLowerCase();
+}
+
+function isAdmin(user){
+  return user.admin == config.ADMIN_TOKEN
+}
+
+module.exports ={
+
+  normEmail,
+  isAdmin,
+};
