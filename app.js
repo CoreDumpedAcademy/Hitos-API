@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 
 app.use('/user', userRoutes);
+<<<<<<< HEAD
 app.use('express.json()');
 app.use(cors());
 app.use(sassMiddleware({
@@ -26,6 +27,10 @@ app.use(sassMiddleware({
 app.use('/', routes);
 app.use('/', userRoutes);
 app.use('/', index);
+=======
+app.use('/milestone', milestoneRoutes);
+app.use('/api', api);
+>>>>>>> 35283024156102ebe834f86b075513739e8bc194
 
 app.use('/milestone', milestoneRoutes);
 app.use(bodyParser.urlencoded({ extended: false}));
