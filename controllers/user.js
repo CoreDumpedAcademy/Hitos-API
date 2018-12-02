@@ -129,6 +129,8 @@ function updateMilestone(req, res) {
 			}
 			i++
 		}
+		if(sentinel)
+			return res.status(404).send({message: 'El milestone no existe'})
 
 		User.findByIdAndUpdate(userId, {milestonesCollection: milestones}, (err, oldUser) => {
 			if(err)
@@ -154,6 +156,37 @@ function deleteUser(req, res){
 	})
 }
 
+function unassignMilestone(req, res) {
+	let userId = req.params.userId
+	let milestoneId = req.params.milestoneId
+
+	User.findById(userId, (err, user) => {
+		if(err)
+			return res.status(500).send({message: `Error al borrar usuario: ${err}`})
+		if(!user)
+			return res.status(404).send({message:`El usuario no existe`})
+		var milestones = user.milestonesCollection
+		var i = 0
+		var sentinel = true
+		while(i<milestones.length && sentinel) {
+			if(milestones[i]._id == milestoneId){
+				sentinel = false
+			}
+			else{
+				i++
+			}
+		}
+		if(sentinel)
+			return res.status(404).send({message: 'El milestone no existe'})
+		milestones.splice(i, 1)
+		User.findByIdAndUpdate(userId, {milestonesCollection: milestones}, (err, oldUser) => {
+			if(err)
+				return res.status(500).send({message: `Error al borrar usuario: ${err}`})
+			return res.status(200).send({oldUser})
+		})
+	})
+}
+
 module.exports = {
 	createUser,
 	getUser,
@@ -163,5 +196,6 @@ module.exports = {
 	getUserByName,
 	logUser,
 	assignMilestone,
-	updateMilestone
+	updateMilestone,
+	unassignMilestone
 }
