@@ -96,15 +96,32 @@ function assignMilestone(req, res) {
 			return res.status(500).send({message: `Error al realizar peticion: ${err}`})
 		if(!milestone)
 			return res.status(404).send({message: `El milestone no existe`})
-		let update = {
-			$push:{milestonesCollection: milestone}
-		}
-		User.findByIdAndUpdate(userId, update, (err, oldUser) => {
+		User.findById(userId, (err, user) => {	
 			if(err)
 				return res.status(500).send({message: `Error al realizar peticion: ${err}`})
-			if(!oldUser)
+			if(!user)
 				return res.status(404).send({message: `El usuario no existe`})
-			return res.status(200).send({oldUser})
+			var milestones = user.milestonesCollection
+			var i = 0
+			var sentinel = true
+			while(i<milestones.length && sentinel) {
+				if(milestones[i]._id == milestoneId){
+					sentinel = false
+				}
+				else{
+					i++
+				}
+			}
+			if(!sentinel)
+				return res.status(400).send({message: 'El milestone ya está asignado al usuario'})
+			let update = {
+				$push:{milestonesCollection: milestone}
+			}
+			User.findByIdAndUpdate(userId, update, (err, oldUser) => {
+				if(err)
+					return res.status(500).send({message: `Error al realizar peticion: ${err}`})
+				return res.status(200).send({oldUser})
+			})
 		})
 	})
 }
