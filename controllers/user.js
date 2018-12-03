@@ -3,7 +3,7 @@
 const User = require('../models/user')
 const Milestone = require('../models/milestone')
 const mongoose = require('mongoose')
-const service = require('../services')
+const service = require('../services/token')
 const bcrypt = require('bcrypt-nodejs')
 
 
@@ -20,9 +20,9 @@ function logUser (req, res){
 			    if (err) return res.status(500).send({ msg: `Error al ingresar: ${err}` })
 			    if (!isMatch) return res.status(404).send({ msg: 'Usuario o contraseña incorrectos' })
 
-			    return res.status(200).send({ 
-			    	msg: 'Te has logueado correctamente'/*, 
-			    	token: service.createToken(user) */
+			    return res.status(200).send({
+			    	msg: 'Te has logueado correctamente',
+			    	token: service.createToken(user)
 			    })
 			});
 		})
@@ -30,7 +30,7 @@ function logUser (req, res){
 
 function createUser(req, res){
 	let user = new User()
-	
+
 	user.userName = req.body.userName
 	user.password = req.body.password
 	user.idTelegram = req.body.idTelegram
@@ -48,7 +48,7 @@ function getUsers (req, res) {
 	User.find({}, (err, users) => {
 		if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
 		if (!users) return res.status(404).send({message: 'No existen usuarios'})
-	
+
 		res.status(200).send({users})
 	})
 }
@@ -59,7 +59,7 @@ function getUserByName (req, res) {
 	User.find({userName:name}, (err, user) => {
 		if (err) return res.status(500).send({message: `Error al realizar la petición: ${err}`})
 		if (!user) return res.status(404).send({message: 'No existen el usuario'})
-	
+
 		res.status(200).send(user)
 	})
 }
@@ -96,7 +96,7 @@ function assignMilestone(req, res) {
 			return res.status(500).send({message: `Error al realizar peticion: ${err}`})
 		if(!milestone)
 			return res.status(404).send({message: `El milestone no existe`})
-		User.findById(userId, (err, user) => {	
+		User.findById(userId, (err, user) => {
 			if(err)
 				return res.status(500).send({message: `Error al realizar peticion: ${err}`})
 			if(!user)
