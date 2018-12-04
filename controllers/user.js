@@ -3,7 +3,7 @@
 const User = require("../models/user");
 const Milestone = require("../models/milestone");
 const mongoose = require("mongoose");
-const service = require("../services");
+//const service = require("../services");
 const bcrypt = require("bcrypt-nodejs");
 const utils = require("../middlewares/utils");
 
@@ -30,8 +30,8 @@ function logUser(req, res) {
 
         return res.status(200).send({
           msg:
-            "Te has logueado correctamente" /*, 
-			    	token: service.createToken(user) */
+            "Te has logueado correctamente"/*, 
+			    	token: service.createToken(user)*/
         });
       });
     });
@@ -48,7 +48,7 @@ function createUser(req, res) {
 
   Milestone.find({}, (err, milestones) => {
     if (!err && milestones) {
-      const promise = new Promise(function(resolve, reject) {
+      new Promise(function(resolve, reject) {
         milestones.forEach(hito => {
           utils.check(user.milestonesCollection, hito).then();
         });
@@ -83,9 +83,7 @@ function getUsers(req, res) {
 function getUserByName(req, res) {
   let name = req.params.name;
 
-  User.find({ userName: name })
-    .populate("milestonesCollection[0].milestone")
-    .exec((err, user) => {
+  User.find({ userName: name }, (err, user) => {
       if (err)
         return res
           .status(500)

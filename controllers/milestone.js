@@ -123,7 +123,32 @@ function updateMilestone(req, res) {
         .send({ message: `Error al actualizar milestone: ${err}` });
     if (!oldMilestone)
       return res.status(404).send({ message: "El milestone no existe" });
-    res.status(200).send({ oldMilestone });
+
+    Milestone.findById(milestoneId, (err, milestoneSaved) => {
+      if (!err && milestoneSaved) {
+        User.find(
+          { role: enumerated.role[2], role: enumerated.role[3] },
+          (err, users) => {
+          if (!err && users) {
+            new Promise( function(resolve, reject) {
+              users.forEach(u => {
+                var sentinel = true;
+                
+                for(var i = 0; i < u.milestonesCollection.length && sentinel; i++){
+                  if(u.milestonesCollection[i].milestone._id == milestoneId){
+                    u.milestonesCollection[i].milestone = milestoneSaved;
+                    sentinel = false;
+                    u.save((err, saved) => {})
+                  }
+                }
+              });
+
+              resolve();
+            }).then(content => { res.status(200).send({ milestoneSaved }) })
+          }
+        });
+      }
+    });
   });
 }
 
