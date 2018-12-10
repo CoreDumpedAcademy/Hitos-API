@@ -2,6 +2,7 @@
 
 const express = require('express')
 const auth = require ('../middlewares/auth')
+const admin = require('../middlewares/admin')
 
 /*const userCtrl = require('../controllers/user')*/
 
