@@ -7,7 +7,7 @@ const config = require('../config');
 
 function createToken (user) {
   const payload = {
-    sub:jwt.encode(payload, config.SECRET_TOKEN),
+    sub:user._id
     iat: moment.unix(),
     exp: moment().add(14, 'days').unix(),
     logged: isLogged,
@@ -26,7 +26,7 @@ function decodeToken (token){
            message: 'El token ha expirado',
         })
       }
-      var userId = jwt.encode(payload, config.SECRET_TOKEN)
+      var userId = payload.sub
       resolve(userId);
     } catch(err) {
       reject({
