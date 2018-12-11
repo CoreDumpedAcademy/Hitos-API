@@ -3,8 +3,10 @@
 const express = require('express');
 const router = express.Router();
 const userCtrl = require('../controllers/user');
+const Radmin = require('../middlewares/registerAdmin');
 
 router.post('/', userCtrl.createUser);
+router.post('/admin', Radmin, userCtrl.createAdmin);
 router.get('/', userCtrl.getUsers);
 router.get('/:userId', userCtrl.getUser);
 router.get('/byName/:name', userCtrl.getUserByName);
