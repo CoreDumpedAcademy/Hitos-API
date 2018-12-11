@@ -11,10 +11,10 @@ function logUser (req, res){
 	const logUser = new User(req.body);
 
 	User.findOne({userName:logUser.userName})
-		.select('+password +admin')
+		.select('+password')
         .exec((err, user) => {
 			if(err) return res.status(500).send({message: `Error al realizar la petición: ${err}`});
-			if(!user) return res.status(404).send({message: 'El usuario no existe'});
+			if(!user) return res.status(404).send({message: 'El usuario no existe', queUser: `${user}`});
 
 			return user.comparePassword(logUser.password, (err, isMatch) => {
 			    if (err) return res.status(500).send({ msg: `Error al ingresar: ${err}` })
