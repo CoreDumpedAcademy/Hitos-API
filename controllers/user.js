@@ -3,7 +3,7 @@
 const User = require("../models/user");
 const Milestone = require("../models/milestone");
 const mongoose = require("mongoose");
-const service = require("../services");
+const service = require("../services/token");
 const bcrypt = require("bcrypt-nodejs");
 const utils = require("../middlewares/utils");
 
@@ -30,8 +30,8 @@ function logUser(req, res) {
 
         return res.status(200).send({
           msg:
-            "Te has logueado correctamente" /*, 
-			    	token: service.createToken(user) */
+            "Te has logueado correctamente" , 
+			    	token: service.createToken(user)
         });
       });
     });
