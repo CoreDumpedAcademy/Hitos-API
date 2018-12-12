@@ -30,7 +30,7 @@ function logUser(req, res) {
 
         return res.status(200).send({
           msg:
-            "Te has logueado correctamente" , 
+            "Te has logueado correctamente" ,
 			    	token: service.createToken(user)
         });
       });
@@ -45,6 +45,24 @@ function createUser(req, res) {
   user.idTelegram = req.body.idTelegram;
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
+  
+  function createAdmin(req, res){
+  	console.log('estoy creando admin')
+  	let user = new User()
+
+  	user.userName = req.body.userName
+  	user.password = req.body.password
+  	user.idTelegram = req.body.idTelegram
+  	user.firstName = req.body.firstName
+  	user.lastName = req.body.lastName
+  	user.role = 'admin'
+
+  	user.save((err, userStored) => {
+  		if(err)
+  			return res.status(500).send({message: `Error al crear admin: ${err}`})
+  		res.status(200).send({message: userStored})
+  	})
+  }
 
   Milestone.find({}, (err, milestones) => {
     if (!err && milestones) {
