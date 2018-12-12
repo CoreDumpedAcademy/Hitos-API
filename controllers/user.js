@@ -45,24 +45,30 @@ function createUser(req, res) {
   user.idTelegram = req.body.idTelegram;
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
-  
-  function createAdmin(req, res){
-  	console.log('estoy creando admin')
-  	let user = new User()
 
-  	user.userName = req.body.userName
-  	user.password = req.body.password
-  	user.idTelegram = req.body.idTelegram
-  	user.firstName = req.body.firstName
-  	user.lastName = req.body.lastName
-  	user.role = 'admin'
+  user.save((err, userStored) => {
+		if(err)
+			return res.status(500).send({message: `Error al crear usuario: ${err}`})
+		res.status(200).send({message: userStored})
+	})
+}
+function createAdmin(req, res){
+	console.log('estoy creando admin')
+	let user = new User()
 
-  	user.save((err, userStored) => {
-  		if(err)
-  			return res.status(500).send({message: `Error al crear admin: ${err}`})
-  		res.status(200).send({message: userStored})
-  	})
-  }
+	user.userName = req.body.userName
+	user.password = req.body.password
+	user.idTelegram = req.body.idTelegram
+	user.firstName = req.body.firstName
+	user.lastName = req.body.lastName
+	user.role = 'admin'
+
+	user.save((err, userStored) => {
+		if(err)
+			return res.status(500).send({message: `Error al crear admin: ${err}`})
+		res.status(200).send({message: userStored})
+	})
+}
 
   Milestone.find({}, (err, milestones) => {
     if (!err && milestones) {
@@ -283,6 +289,7 @@ function unassignMilestone(req, res) {
 
 module.exports = {
   createUser,
+  createAdmin,
   getUser,
   updateUser,
   deleteUser,

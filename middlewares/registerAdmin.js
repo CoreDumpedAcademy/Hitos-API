@@ -10,3 +10,4 @@ module.exports = function isRole(req, res, next) {
   else{
     res.status(401).send({ message: 'Unauthorized'});
   }
+}  
