@@ -29,9 +29,8 @@ function logUser(req, res) {
             .send({ msg: "Usuario o contraseña incorrectos" });
 
         return res.status(200).send({
-          msg:
-            "Te has logueado correctamente" ,
-			    	token: service.createToken(user)
+          msg: "Te has logueado correctamente",
+          token: service.createToken(user)
         });
       });
     });
@@ -45,30 +44,6 @@ function createUser(req, res) {
   user.idTelegram = req.body.idTelegram;
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
-
-  user.save((err, userStored) => {
-		if(err)
-			return res.status(500).send({message: `Error al crear usuario: ${err}`})
-		res.status(200).send({message: userStored})
-	})
-}
-function createAdmin(req, res){
-	console.log('estoy creando admin')
-	let user = new User()
-
-	user.userName = req.body.userName
-	user.password = req.body.password
-	user.idTelegram = req.body.idTelegram
-	user.firstName = req.body.firstName
-	user.lastName = req.body.lastName
-	user.role = 'admin'
-
-	user.save((err, userStored) => {
-		if(err)
-			return res.status(500).send({message: `Error al crear admin: ${err}`})
-		res.status(200).send({message: userStored})
-	})
-}
 
   Milestone.find({}, (err, milestones) => {
     if (!err && milestones) {
@@ -89,6 +64,24 @@ function createAdmin(req, res){
         });
       });
     }
+  });
+}
+
+function createAdmin(req, res) {
+  console.log("estoy creando admin");
+  let user = new User();
+
+  user.userName = req.body.userName;
+  user.password = req.body.password;
+  user.idTelegram = req.body.idTelegram;
+  user.firstName = req.body.firstName;
+  user.lastName = req.body.lastName;
+  user.role = "admin";
+
+  user.save((err, userStored) => {
+    if (err)
+      return res.status(500).send({ message: `Error al crear admin: ${err}` });
+    res.status(200).send({ message: userStored });
   });
 }
 
