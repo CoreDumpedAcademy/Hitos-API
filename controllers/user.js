@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const service = require("../services/token");
 const bcrypt = require("bcrypt-nodejs");
 const utils = require("../middlewares/utils");
+const enume = require("../middlewares/enumStructures");
 
 function logUser(req, res) {
   const logUser = new User(req.body);
@@ -76,7 +77,7 @@ function createAdmin(req, res) {
   user.idTelegram = req.body.idTelegram;
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
-  user.role = "admin";
+  user.role = enume.role[0];
 
   user.save((err, userStored) => {
     if (err)
