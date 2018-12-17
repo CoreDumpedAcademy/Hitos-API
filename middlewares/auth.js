@@ -13,13 +13,13 @@ function isAuth(req, res, next){
   if (!req.headers.authorization){
     return res.status(403).send({ message: "No tienes autorización"});
   }
-
-  const tokenReq = req.headers.authorization.split("")[1];
+  console.log(req.headers);
+  const tokenReq = req.headers.authorization.split(" ")[1];
 
   	const logUser = new User(req.body);
     let tok = logUser.userName
 
-  token.decode(tokenReq)
+  token.decodeToken(tokenReq)
    .then(response => {
      User.findOne({userName:tok})
       .exec((err, user) => {

@@ -89,7 +89,7 @@ function getMilestoneByWeek(req, res) {
           .status(404)
           .send({ message: "No existen milestones para esa semana" });
 
-      res.status(200).send(milestones);
+      res.status(200).send({ milestones });
     });
 }
 
@@ -108,7 +108,7 @@ function getMilestoneByCategory(req, res) {
           .status(404)
           .send({ message: "No existen milestones con esa categoría" });
 
-      res.status(200).send(milestones);
+      res.status(200).send({ milestones });
     });
 }
 
