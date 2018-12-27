@@ -23,14 +23,14 @@ function logUser(req, res) {
 
       return user.comparePassword(logUser.password, (err, isMatch) => {
         if (err)
-          return res.status(500).send({ msg: `Error al ingresar: ${err}` });
+          return res.status(500).send({ message: `Error al ingresar: ${err}` });
         if (!isMatch)
           return res
             .status(404)
-            .send({ msg: "Usuario o contraseña incorrectos" });
+            .send({ message: "Usuario o contraseña incorrectos" });
 
         return res.status(200).send({
-          msg: "Te has logueado correctamente",
+          message: "Te has logueado correctamente",
           token: service.createToken(user)
         });
       });
