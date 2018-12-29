@@ -31,7 +31,8 @@ function logUser(req, res) {
 
         return res.status(200).send({
           message: "Te has logueado correctamente",
-          token: service.createToken(user)
+          token: service.createToken(user),
+          id: user._id
         });
       });
     });
@@ -202,8 +203,8 @@ function updateMilestone(req, res) {
     var sentinel = true;
     var i = 0;
     while (i < milestones.length && sentinel) {
-      if (milestones[i]._id == milestoneId) {
-        milestones[i].status = update;
+      if (milestones[i].milestone._id == milestoneId) {
+        milestones[i].milestone.status = update;
         sentinel = false;
       }
       i++;
@@ -258,14 +259,14 @@ function unassignMilestone(req, res) {
     var i = 0;
     var sentinel = true;
     while (i < milestones.length && sentinel) {
-      if (milestones[i]._id == milestoneId) {
+      if (milestones[i].milestone._id == milestoneId) {
         sentinel = false;
       } else {
         i++;
       }
     }
     if (sentinel)
-      return res.status(404).send({ message: "El milestone no existe" });
+      return res.status(404).send({ message: "El milestone no existe"});
     milestones.splice(i, 1);
     User.findByIdAndUpdate(
       userId,
