@@ -32,7 +32,8 @@ function logUser(req, res) {
         return res.status(200).send({
           message: "Te has logueado correctamente",
           token: service.createToken(user),
-          id: user._id
+          id: user._id,
+          role: (user.role === enume.role[0] || user.role === enume.role[1])
         });
       });
     });
