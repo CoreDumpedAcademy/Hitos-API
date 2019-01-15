@@ -104,7 +104,11 @@ function getUserByName(req, res) {
   let name = req.params.name;
 
   User.find({ userName: name })
-    .populate("milestonesCollection[0].milestone")
+    .populate({path: "milestonesCollection.milestone.author", populate: {
+      path: "author",
+      model: enume.modelsName.user
+    }
+  })
     .exec((err, user) => {
       if (err)
         return res
