@@ -209,7 +209,7 @@ function updateMilestone(req, res) {
     var i = 0;
     while (i < milestones.length && sentinel) {
       if (milestones[i].milestone._id == milestoneId) {
-        milestones[i].milestone.status = update;
+        milestones[i].status = update;
         sentinel = false;
       }
       i++;
@@ -225,6 +225,8 @@ function updateMilestone(req, res) {
           return res
             .status(500)
             .send({ message: `Error al realizar peticion: ${err}` });
+        if (!oldUser)
+          return res.status(404).send({ message: "El usuario no existe" });
         return res.status(200).send({ oldUser });
       }
     );
